@@ -1,0 +1,372 @@
+/* ================= GLOBAL ================= */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  background: #121212;
+  color: #eee;
+}
+
+
+/* ================= HEADER ================= */
+header {
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid #333;
+}
+
+header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}
+
+header p {
+  margin: 2px 0 5px;
+  font-size: 14px;
+  color: #bbb;
+}
+
+
+/* ================= LAYOUT ================= */
+.app-container {
+  display: flex;
+  height: calc(100vh - 70px);
+}
+
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 320px;
+  background: #1a1a1a;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  border-right: 1px solid #333;
+}
+
+
+/* ================= UPLOAD BOX ================= */
+#dropZone {
+  background: #1e1e1e;
+  border: 2px dashed #555;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+#dropZone:hover {
+  border-color: #42a5f5;
+  background: #222;
+}
+
+
+/* ================= FILTER BLOCKS ================= */
+.filter-group {
+  background: #1e1e1e;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+
+/* ================= VERTICAL CHECKBOX LISTS ================= */
+#routeCheckboxes,
+#dayCheckboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+#routeCheckboxes label,
+#dayCheckboxes label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+
+/* ================= BUTTONS ================= */
+.mini-btn {
+  background: #333;
+  color: #eee;
+  border: none;
+  border-radius: 5px;
+  padding: 2px 6px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.mini-btn:hover {
+  background: #42a5f5;
+  color: #000;
+}
+
+#resetMapBtn {
+  background: #42a5f5;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#resetMapBtn:hover {
+  background: #64b5f6;
+}
+
+
+/* ================= SAVED FILES LIST ================= */
+#savedFiles {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  font-size: 13px;
+}
+
+#savedFiles li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+#savedFiles button {
+  background: #333;
+  color: #eee;
+  border: none;
+  border-radius: 5px;
+  padding: 2px 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+#savedFiles button:hover {
+  background: #42a5f5;
+  color: #000;
+}
+
+
+/* ================= STATS ================= */
+#statsList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  font-size: 13px;
+}
+
+
+/* ================= MAP ================= */
+.map-container {
+  flex: 1;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== Modern mobile menu button ===== */
+#mobileMenuBtn {
+  display: none;
+  margin-top: 6px;
+
+  background: transparent;
+  border: 1px solid #444;
+  color: #eee;
+
+  border-radius: 8px;
+  padding: 6px 10px;
+
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+#mobileMenuBtn:hover {
+  background: #222;
+  border-color: #666;
+}
+
+/* When sidebar is open → show active state */
+#mobileMenuBtn.active {
+  background: #42a5f5;
+  border-color: #42a5f5;
+  color: #000;
+}
+
+
+/* Tablet & phone */
+@media (max-width: 900px) {
+  .app-container {
+    flex-direction: column;
+    height: calc(100vh - 90px);
+  }
+
+  .sidebar {
+    width: 100%;
+    max-height: 50vh;
+    border-right: none;
+    border-bottom: 1px solid #333;
+    display: none; /* hidden until menu tapped */
+  }
+
+  .sidebar.open {
+    display: flex;
+  }
+
+  .map-container {
+    flex: 1;
+  }
+
+  #mobileMenuBtn {
+    display: inline-block;
+  }
+
+  /* Bigger touch targets */
+  .mini-btn,
+  #resetMapBtn,
+  #savedFiles button {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  #routeCheckboxes,
+  #dayCheckboxes {
+    max-height: 140px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 18px;
+  }
+
+  header p {
+    font-size: 12px;
+  }
+
+  .sidebar {
+    max-height: 60vh;
+  }
+}
+
+.sidebar-toggle {
+  position: fixed;            /* stay in same place on screen */
+  top: 50%;
+  left: 320px;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 72px;
+
+  background: #2a2a2a;
+  color: #eee;
+  border: 1px solid #444;
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+
+  z-index: 2000;              /* ABOVE Leaflet map */
+  touch-action: manipulation; /* allow taps */
+}
+
+.sidebar-toggle:hover {
+  background: #42a5f5;
+  color: #000;
+}
+
+/* Move to screen edge when collapsed */
+.app-container.collapsed .sidebar-toggle {
+  left: 0;
+}
+
+/* Rotate arrow when sidebar is collapsed */
+.app-container.collapsed .sidebar-toggle {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+
+
+
+/* Collapse sidebar */
+.app-container.collapsed .sidebar {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+  border-right: none;
+}
+
+.app-container.collapsed .map-container {
+  flex: 1;
+}
+
+
+/* Smooth animation */
+.sidebar {
+  transition: width 0.25s ease, padding 0.25s ease;
+}
+
+
+/* Collapsed state */
+.app-container.collapsed .sidebar {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+  border-right: none;
+}
+
+.app-container.collapsed .map-container {
+  flex: 1;
+}
+
+/* ===== Prevent double menu buttons ===== */
+
+/* Hide floating toggle on mobile */
+@media (max-width: 900px) {
+  .sidebar-toggle {
+    display: none !important;
+  }
+}
+
+/* Hide top mobile menu on desktop */
+@media (min-width: 901px) {
+  #mobileMenuBtn {
+    display: none !important;
+  }
+}
+
+
+
+
+
+
+
+
