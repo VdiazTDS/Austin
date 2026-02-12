@@ -43,16 +43,19 @@
         <ul id="savedFiles"></ul>
       </div>
 
-      <!-- Layer Instructions -->
-      <div class="filter-group">
-        <strong>How to Use</strong>
-        <ul id="statsList">
-          <li><b>Upload a file:</b> Drag & drop a .geojson/.json file into the upload box, or tap the box to choose a file.</li>
-          <li><b>Open a layer:</b> Click <b>Open</b> next to a saved file to show it on the map.</li>
-          <li><b>Change colors:</b> Use the color picker in the legend below the basemap selector to update a layer’s color instantly.</li>
-          <li><b>Reset the map:</b> Click <b>Reset Map View</b> to zoom out, remove all layers, and clear the legend.</li>
-          <li><b>Delete a file:</b> Click <b>Delete</b> to permanently remove a saved layer.</li>
-        </ul>
+      <!-- Collapsible Help Panel -->
+      <div class="filter-group help-panel">
+        <button id="helpToggle" class="help-toggle">❓ Help & Instructions</button>
+
+        <div id="helpContent" class="help-content">
+          <ul>
+            <li>📤 <strong>Upload files:</strong> Drag & drop a GeoJSON file into the upload box or click it to choose a file.</li>
+            <li>📂 <strong>Open existing layers:</strong> Click <b>Open</b> next to any saved file to display it on the map.</li>
+            <li>🎨 <strong>Change layer colors:</strong> Use the color picker in the legend to customize how each layer appears.</li>
+            <li>🗺️ <strong>Reset map view:</strong> Clears all open layers, removes the legend, and zooms back to the world view.</li>
+            <li>🧭 <strong>Change basemap:</strong> Use the Streets/Satellite dropdown to switch map styles.</li>
+          </ul>
+        </div>
       </div>
 
       <!-- Reset Map -->
@@ -91,5 +94,20 @@
 
   <!-- App JS -->
   <script src="app.js"></script>
+  <script>
+    // =============================================================
+    // COLLAPSIBLE HELP PANEL TOGGLE
+    // Adds expand/collapse behavior for Help section
+    // =============================================================
+    const helpToggle = document.getElementById("helpToggle");
+    const helpContent = document.getElementById("helpContent");
+
+    if (helpToggle && helpContent) {
+      helpToggle.addEventListener("click", () => {
+        const isOpen = helpContent.classList.toggle("open");
+        helpToggle.textContent = isOpen ? "▼ Help & Instructions" : "▶ Help & Instructions";
+      });
+    }
+  </script>
 </body>
 </html>
