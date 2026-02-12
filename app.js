@@ -148,6 +148,39 @@ if (resetMapBtn) {
     map.setView([0, 0], 2);
   };
 }
+// =============================================================
+// SIDEBAR / MOBILE MENU CONTROL
+// Handles opening/closing sidebar on phones and desktop
+// =============================================================
+const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+const toggleSidebarBtn = document.getElementById("toggleSidebarBtn");
+const sidebar = document.querySelector(".sidebar");
+const appContainer = document.querySelector(".app-container");
+
+// Mobile menu button
+if (mobileMenuBtn && sidebar) {
+  mobileMenuBtn.addEventListener("click", () => {
+    const isOpen = sidebar.classList.toggle("open");
+
+    // Keep readable label for non-technical users
+    mobileMenuBtn.innerHTML = isOpen ? "✕ Close" : "☰ Menu";
+
+    // Fix Leaflet sizing after layout change
+    setTimeout(() => map.invalidateSize(), 250);
+  });
+}
+
+// Desktop collapse toggle
+if (toggleSidebarBtn && appContainer) {
+  toggleSidebarBtn.addEventListener("click", () => {
+    appContainer.classList.toggle("collapsed");
+
+    toggleSidebarBtn.textContent =
+      appContainer.classList.contains("collapsed") ? "▶" : "◀";
+
+    setTimeout(() => map.invalidateSize(), 250);
+  });
+}
 
 
 listFiles();
