@@ -48,7 +48,7 @@ async function loadGeoJSONFile(name) {
   const res = await fetch(data.publicUrl);
   const geojson = await res.json();
 
-  // Random color per layer (GIS-style)
+  // Random starting color
   const color = "#" + Math.floor(Math.random() * 16777215).toString(16);
 
   const layer = L.geoJSON(geojson, {
@@ -68,18 +68,29 @@ async function loadGeoJSONFile(name) {
   geojsonLayerGroup.addLayer(layer);
   map.fitBounds(layer.getBounds());
 
+  // Store for legend + color editing
+  openLayers.set(name, { color, layer });
+
+  updateLegend();
+}
+
+
+  geojsonLayerGroup.addLayer(layer);
+  map.fitBounds(layer.getBounds());
+
   // Track for legend
   openLayers.set(name, color);
   updateLegend();
 }
+
 // =============================================================
-// MAP LEGEND
-// Shows currently visible GeoJSON layers
+// MAP LEGEND WITH COLOR PICKER
+// Shows visible layers and allows color editing
 // =============================================================
 const legend = document.getElementById("mapLegend");
 const legendList = document.getElementById("legendList");
 
-// Track open layers
+// Track open layers → store BOTH color and Leaflet layer
 const openLayers = new Map();
 
 function updateLegend() {
@@ -92,21 +103,30 @@ function updateLegend() {
 
   legend.style.display = "block";
 
-  openLayers.forEach((color, name) => {
+  openLayers.forEach((layerData, name) => {
+    const { color, layer } = layerData;
+
     const li = document.createElement("li");
 
-    li.innerHTML = `
-      <span style="
-        display:inline-block;
-        width:12px;
-        height:12px;
-        background:${color};
-        margin-right:6px;
-        border-radius:2px;
-      "></span>
-      ${name}
-    `;
+    // Color picker
+    const colorInput = document.createElement("input");
+    colorInput.type = "color";
+    colorInput.value = color;
 
+    // When color changes → update map style
+    colorInput.oninput = (e) => {
+      const newColor = e.target.value;
+
+      layer.setStyle({ color: newColor });
+
+      openLayers.set(name, { color: newColor, layer });
+    };
+
+    // Layer name label
+    const label = document.createElement("span");
+    label.textContent = " " + name;
+
+    li.append(colorInput, label);
     legendList.appendChild(li);
   });
 }
