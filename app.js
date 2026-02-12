@@ -261,4 +261,3 @@ toggleSidebarBtn.onclick = () => {
 
 // ================= INIT =================
 listFiles();
-```
