@@ -209,7 +209,6 @@ if (resetMapBtn) {
   };
 }
 
-}
 // =============================================================
 // SIDEBAR / MOBILE MENU CONTROL
 // Handles opening/closing sidebar on phones and desktop
