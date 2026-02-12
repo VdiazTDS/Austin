@@ -48,8 +48,11 @@ async function loadGeoJSONFile(name) {
   const res = await fetch(data.publicUrl);
   const geojson = await res.json();
 
+  // Random color per layer (GIS-style)
+  const color = "#" + Math.floor(Math.random() * 16777215).toString(16);
+
   const layer = L.geoJSON(geojson, {
-    style: { color: "#ffcc00", weight: 2 },
+    style: { color, weight: 2 },
 
     onEachFeature: (feature, layer) => {
       if (!feature.properties) return;
@@ -64,7 +67,50 @@ async function loadGeoJSONFile(name) {
 
   geojsonLayerGroup.addLayer(layer);
   map.fitBounds(layer.getBounds());
+
+  // Track for legend
+  openLayers.set(name, color);
+  updateLegend();
 }
+// =============================================================
+// MAP LEGEND
+// Shows currently visible GeoJSON layers
+// =============================================================
+const legend = document.getElementById("mapLegend");
+const legendList = document.getElementById("legendList");
+
+// Track open layers
+const openLayers = new Map();
+
+function updateLegend() {
+  legendList.innerHTML = "";
+
+  if (openLayers.size === 0) {
+    legend.style.display = "none";
+    return;
+  }
+
+  legend.style.display = "block";
+
+  openLayers.forEach((color, name) => {
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      <span style="
+        display:inline-block;
+        width:12px;
+        height:12px;
+        background:${color};
+        margin-right:6px;
+        border-radius:2px;
+      "></span>
+      ${name}
+    `;
+
+    legendList.appendChild(li);
+  });
+}
+
 
 
 // =============================================================
@@ -85,11 +131,17 @@ async function listFiles() {
     openBtn.onclick = () => loadGeoJSONFile(file.name);
 
     const delBtn = document.createElement("button");
-    delBtn.textContent = "Delete";
-    delBtn.onclick = async () => {
-      await sb.storage.from(GEOJSON_BUCKET).remove([file.name]);
-      listFiles();
-    };
+delBtn.textContent = "Delete";
+delBtn.onclick = async () => {
+  await sb.storage.from(GEOJSON_BUCKET).remove([file.name]);
+
+  // Remove from legend tracking
+  openLayers.delete(file.name);
+  updateLegend();
+
+  listFiles();
+};
+
 
     li.append(openBtn, delBtn, document.createTextNode(" " + file.name));
     ul.appendChild(li);
