@@ -191,14 +191,24 @@ fileInput.onchange = e => uploadFile(e.target.files[0]);
 // =============================================================
 // =============================================================
 // RESET MAP VIEW BUTTON
-// Returns map to world view
+// Zooms out, removes open layers, and clears legend
 // =============================================================
 const resetMapBtn = document.getElementById("resetMapBtn");
 
 if (resetMapBtn) {
   resetMapBtn.onclick = () => {
+    // Remove all GeoJSON layers from map
+    geojsonLayerGroup.clearLayers();
+
+    // Clear legend tracking
+    openLayers.clear();
+    updateLegend();
+
+    // Return to world view
     map.setView([0, 0], 2);
   };
+}
+
 }
 // =============================================================
 // SIDEBAR / MOBILE MENU CONTROL
